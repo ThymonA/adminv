@@ -11,6 +11,9 @@
     ],
     "files": [],
     "client_scripts": [
+        "client/options/position.lua",
+        "client/options/size.lua",
+        "client/options/theme.lua",
         "client/main.lua"
     ],
     "server_scripts": [],

@@ -1,4 +1,21 @@
 {
     "settings": "Settings",
-    "settings_description": "Change your preferences for AdminV"
+    "settings_description": "Change your preferences for AdminV",
+    "position": "Position",
+    "position_description": "Change position of menu",
+    "position_topleft": "Top Left",
+    "position_topcenter": "Top Center",
+    "position_topright": "Top Right",
+    "position_centerleft": "Center Left",
+    "position_center": "Center",
+    "position_centerright": "Center Right",
+    "position_bottomleft": "Bottom Left",
+    "position_bottomcenter": "Bottom Center",
+    "position_bottomright": "Bottom Right",
+    "size": "Size",
+    "size_description": "Change the size of menu",
+    "theme": "Theme",
+    "theme_default": "Default",
+    "theme_native": "GTA5",
+    "theme_description": "Change the theme of menu"
 }

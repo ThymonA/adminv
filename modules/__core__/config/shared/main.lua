@@ -70,6 +70,22 @@ function config:LoadConfig(name)
     return env_config
 end
 
+function config:SetValue(name, key, value)
+    name = type(name) == 'string' and name or GetInvokingModule() or _PARENT.NAME or NAME or 'unknown'
+    key = utils:ensure(key, 'unknown')
+    value = value or nil
+
+    if (stored_configs == nil) then
+        stored_configs = {}
+    end
+
+    if (stored_configs[string.lower(name)] == nil) then
+        return
+    end
+
+    stored_configs[string.lower(name)][key] = value
+end
+
 RegisterModule(setmetatable(config, {
     __index = function(t, k)
         local keyType = utils:typeof(k)

@@ -53,6 +53,8 @@ AddEventHandler('adminv:loadAdminV', function(permissions)
             utils:ensure(settings.theme, 'native')
         )
 
+        AdminV.Menu:OpenWith('keyboard', utils:ensure(core.menu_open_with, 'OEM_3'))
+
         LoadAdminV()
     end
 end)

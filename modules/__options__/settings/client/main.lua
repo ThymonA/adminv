@@ -12,8 +12,9 @@
                     along with this resource. If not, see <https://choosealicense.com/licenses/gpl-3.0/>
 ]]
 
-M('utils', 'translations')
+M('utils', 'config', 'translations')
 
+local settings = config()
 local trans = translations()
 local settings_menu = AddMenuOption({
     icon = '⚙️',
@@ -21,3 +22,7 @@ local settings_menu = AddMenuOption({
     subtitle = trans:T('settings'),
     description = trans:T('settings_description')
 })
+
+AddPositionOption(settings_menu, settings, trans)
+AddSizeOption(settings_menu, settings, trans)
+AddThemeOption(settings_menu, settings, trans)

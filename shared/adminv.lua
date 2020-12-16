@@ -452,11 +452,18 @@ function AdminV.Environments:Create(env)
         if (AdminV.Menu and MenuV) then
             option = type(option) == 'table' and option or {}
 
-            local config = LoadModule('config')
+            local config, translations = LoadModule('config', 'translations')
             local settings = config('settings')
+            local admin_subtitle = translations('core'):T('admin_subtitle')
+            local subtitle = type(option.subtitle) == 'string' and option.subtitle or tostring(option.subtitle or '') or ''
+
+            if (subtitle ~= nil and subtitle ~= '') then
+                subtitle = ('%s > %s'):format(admin_subtitle, subtitle)
+            end
+
             local sub_menu = MenuV:CreateMenu(
                 type(option.title) == 'string' and option.title or tostring(option.title) or 'unknown',
-                type(option.subtitle) == 'string' and option.subtitle or tostring(option.subtitle or '') or '',
+                subtitle,
                 settings.position or 'topleft',
                 (settings.color or {}).r or 255,
                 (settings.color or {}).g or 0,

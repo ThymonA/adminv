@@ -15,3 +15,4 @@
 config.menu_title = 'AdminV'
 config.menu_texture = 'default'
 config.menu_dictionary = 'menuv'
+config.menu_open_with = 'OEM_3' -- ~ left of 1!

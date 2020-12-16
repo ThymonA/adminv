@@ -1,4 +1,21 @@
 {
     "settings": "Instellingen",
-    "settings_description": "Pas je voorkeursinstellingen aan voor AdminV"
+    "settings_description": "Pas je voorkeursinstellingen aan voor AdminV",
+    "position": "Positie",
+    "position_description": "Verander positie van menu",
+    "position_topleft": "Linksboven",
+    "position_topcenter": "Midden Boven",
+    "position_topright": "Rechtsboven",
+    "position_centerleft": "Midden Links",
+    "position_center": "Midden",
+    "position_centerright": "Midden Rechts",
+    "position_bottomleft": "Linksonder",
+    "position_bottomcenter": "Midden Onder",
+    "position_bottomright": "Rechtsonder",
+    "size": "Grootte",
+    "size_description": "Pas de grootte van menu aan",
+    "theme": "Thema",
+    "theme_default": "Standaard",
+    "theme_native": "GTA5",
+    "theme_description": "Pas thema van menu aan"
 }
