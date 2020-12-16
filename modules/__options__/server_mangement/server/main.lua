@@ -32,6 +32,7 @@ AddGlobalEventHandler('adminv:server_mangement:startResource', function(source, 
     local perms = permissions(source)
 
     if ((perms.ServerManagement or {}).StartResource) then
+        ExecuteCommand('refresh')
         ExecuteCommand(('start %s'):format(name))
     end
 end)
