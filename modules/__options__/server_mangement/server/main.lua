@@ -20,8 +20,6 @@ AddGlobalEventHandler('adminv:server_mangement:stopResource', function(source, n
 
     local perms = permissions(source)
 
-    print(name, source)
-
     if ((perms.ServerManagement or {}).StopResource) then
         ExecuteCommand(('stop %s'):format(name))
     end
