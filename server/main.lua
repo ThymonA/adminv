@@ -47,5 +47,5 @@ AddEventHandler('menuv:loadAdminV', function()
         return
     end
 
-    TriggerClientEvent('menuv:loadAdminV', permissions(source))
+    TriggerClientEvent('menuv:loadAdminV', source, permissions(source))
 end)

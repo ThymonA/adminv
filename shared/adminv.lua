@@ -12,7 +12,7 @@
                     along with this resource. If not, see <https://choosealicense.com/licenses/gpl-3.0/>
 ]]
 
-local AdminV = {
+AdminV = {
     __class = 'adminv',
     Modules = {
         __class = 'modules',
