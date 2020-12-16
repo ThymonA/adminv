@@ -36,8 +36,8 @@ AddEventHandler('playerConnecting', function(playerName, _, deferrals)
     events:triggerPlayerConnecting(playerName, player_src, deferrals)
 end)
 
-RegisterServerEvent('menuv:loadAdminV')
-AddEventHandler('menuv:loadAdminV', function()
+RegisterServerEvent('adminv:loadAdminV')
+AddEventHandler('adminv:loadAdminV', function()
     local source = source
     local utils, permissions = LoadModule('utils', 'permissions')
 
@@ -47,5 +47,5 @@ AddEventHandler('menuv:loadAdminV', function()
         return
     end
 
-    TriggerClientEvent('menuv:loadAdminV', source, permissions(source))
+    TriggerClientEvent('adminv:loadAdminV', source, permissions(source))
 end)

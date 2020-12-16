@@ -34,10 +34,12 @@ files {
     'modules/**/**/translations/*.json',
     'configs/**/shared_config.lua',
     'configs/**/client_config.lua',
-    'shared/*.lua'
+    'shared/*.lua',
+    'natives/natives_client.json'
 }
 
 client_scripts {
+    '@menuv/menuv.lua',
     'shared/adminv.lua',
     'client/main.lua'
 }

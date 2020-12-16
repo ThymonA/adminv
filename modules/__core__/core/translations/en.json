@@ -1,4 +1,5 @@
 {
     "on_connecting_error": "loading events failed, please contact the server owners",
-    "player_connecting": "Player '%s' is now connecting to the server"
+    "player_connecting": "Player '%s' is now connecting to the server",
+    "admin_subtitle": "Admin Menu"
 }

@@ -29,16 +29,14 @@ local function load_config(path, config)
     local raw_config = LoadResourceFile(resource, path)
 
     if (raw_config) then
-        local env = utils:ensure(_PARENT, {})
         local temp_env = {}
 
-        for k, v in pairs(env) do
-            temp_env[k] = v
-        end
+        for k, v in pairs(_G) do temp_env[k] = v end
+        for k, v in pairs(_ENV) do temp_env[k] = v end
 
         temp_env.config = config
 
-        local fn = load(raw_config, ('@%s:load_config'):format(resource), 't', temp_env)
+        local fn = load(raw_config, ('@%s/%s'):format(resource, path), 't', temp_env)
 
         if (fn) then
             local ok = xpcall(fn, print_error)

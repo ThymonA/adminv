@@ -43,8 +43,13 @@ return setmetatable({ __class = 'environment' }, {
 
         rawset(environment, k, v)
     end,
-    __call = function(t, env)
+    __call = function(t, env, global)
         env = type(env) == 'table' and env or {}
+        global = type(global) == 'table' and global or {}
+
+        for k, v in pairs(global) do
+            rawset(environment, k, v)
+        end
 
         for k, v in pairs(env) do
             local key = string.lower(type(k) == 'string' and k or 'unknown')

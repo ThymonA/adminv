@@ -12,6 +12,12 @@
                     along with this resource. If not, see <https://choosealicense.com/licenses/gpl-3.0/>
 ]]
 
-config.menu_title = 'AdminV'
-config.menu_texture = 'default'
-config.menu_dictionary = 'menuv'
+M('utils', 'translations')
+
+local trans = translations()
+local settings_menu = AddMenuOption({
+    icon = '⚙️',
+    title = trans:T('settings'),
+    subtitle = trans:T('settings'),
+    description = trans:T('settings_description')
+})

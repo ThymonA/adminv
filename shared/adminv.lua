@@ -12,6 +12,8 @@
                     along with this resource. If not, see <https://choosealicense.com/licenses/gpl-3.0/>
 ]]
 
+local __print = print
+
 AdminV = {
     __class = 'adminv',
     Modules = {
@@ -23,7 +25,8 @@ AdminV = {
     },
     Environments = {
         __class = 'environments',
-        Modules = {}
+        Modules = {},
+        Natives = nil
     },
     General = {
         __class = 'general',
@@ -31,7 +34,14 @@ AdminV = {
         IsServer = IsDuplicityVersion(),
         Environment = IsDuplicityVersion() and 'server' or 'client',
         EnableTimestamp = false
-    }
+    },
+    Statics = {
+        __class = 'statics',
+        MenuVPositions = { 'topleft', 'topcenter', 'topright', 'centerleft', 'center', 'centerright', 'bottomleft', 'bottomcenter', 'bottomright' },
+        MenuVSizes = { 'size-100', 'size-110', 'size-125', 'size-150', 'size-175', 'size-200' },
+        MenuVThemes = { 'default', 'native' }
+    },
+    Menu = nil
 }
 
 function AdminV.Modules:LoadData()
@@ -111,7 +121,7 @@ function AdminV.Modules:LoadModule(name)
 
             if (not m_success) then
                 if (not m_has_error) then
-                    AdminV.General:PrintError(("Failed to load '%s'"):format(fv), m_environment)
+                    AdminV.General:PrintError(m_environment, ("Failed to load '%s'"):format(fv))
                 end
 
                 return nil, nil
@@ -128,7 +138,7 @@ function AdminV.Modules:LoadModule(name)
 
             if (not m_success) then
                 if (not m_has_error) then
-                    AdminV.General:PrintError(("Failed to load '%s'"):format(fv), m_environment)
+                    AdminV.General:PrintError(m_environment, ("Failed to load '%s'"):format(fv))
                 end
 
                 return nil, nil
@@ -281,11 +291,24 @@ function AdminV.Modules:GetModules()
     return _modules
 end
 
+function AdminV.Environments:LoadNatives()
+    if (self.Natives == nil) then
+        self.Natives = {}
+
+        local natives = AdminV.General:LoadJsonFile(('natives/natives_%s.json'):format(AdminV.General.Environment))
+
+        for k, v in pairs(natives) do
+            self.Natives[v] = _G[v]
+        end
+    end
+end
+
 function AdminV.Environments:Create(env)
     env = type(env) == 'table' and env or {}
 
     local newEnvironment = {}
 
+    for k, v in pairs(self.Natives or {}) do newEnvironment[k] = v end
     for k, v in pairs(_G) do newEnvironment[k] = v end
     for k, v in pairs(_ENV) do newEnvironment[k] = v end
     for k, v in pairs(env) do newEnvironment[k] = v end
@@ -425,6 +448,36 @@ function AdminV.Environments:Create(env)
         return invking_modules
     end
 
+    newEnvironment.AddMenuOption = function(option)
+        if (AdminV.Menu and MenuV) then
+            option = type(option) == 'table' and option or {}
+
+            local config = LoadModule('config')
+            local settings = config('settings')
+            local sub_menu = MenuV:CreateMenu(
+                type(option.title) == 'string' and option.title or tostring(option.title) or 'unknown',
+                type(option.subtitle) == 'string' and option.subtitle or tostring(option.subtitle or '') or '',
+                settings.position or 'topleft',
+                (settings.color or {}).r or 255,
+                (settings.color or {}).g or 0,
+                (settings.color or {}).b or 0,
+                settings.size or 'size-125',
+                type(option.texture) == 'string' and option.texture or (AdminV.Menu or {}).Texture or 'default',
+                type(option.dictionary) == 'string' and option.dictionary or (AdminV.Menu or {}).Dictionary or 'menuv',
+                ('adminv_%s'):format(newEnvironment.GetInvokingModule() or 'unknown'),
+                settings.theme or 'native')
+
+            AdminV.Menu:AddButton({
+                icon = type(option.icon) == 'string' and option.icon or tostring(option.icon or '') or '',
+                label = type(option.title) == 'string' and option.title or tostring(option.title) or 'unknown',
+                description = type(option.description) == 'string' and option.description or tostring(option.description or '') or '',
+                value = sub_menu
+            })
+
+            return sub_menu
+        end
+    end
+
     newEnvironment.GetInvokingModule = function()
         local invoking_modules = newEnvironment.GetInvokingModules()
 
@@ -448,13 +501,11 @@ function AdminV.Environments:Create(env)
 
         if (fn) then
             local ok, result = xpcall(fn, function(msg)
-                AdminV.General:PrintError(msg, newEnvironment)
+                AdminV.General:PrintError(newEnvironment, msg)
             end)
 
             if (ok) then
-                newEnvironment = result(newEnvironment)
-
-                return newEnvironment
+                return result(newEnvironment, _G) or newEnvironment
             end
         end
     end
@@ -475,7 +526,7 @@ function AdminV.Environments:ExecuteFile(resource, file, env)
         if (fn) then
             local ok = xpcall(fn, function(msg)
                 has_error = true
-                AdminV.General:PrintError(msg, env)
+                AdminV.General:PrintError(env, msg)
             end)
 
             if (ok) then
@@ -547,7 +598,7 @@ function AdminV.General:GetTimestamp()
     return timestamp
 end
 
-function AdminV.General:PrintError(msg, env)
+function AdminV.General:PrintError(env, msg)
     env = env or AdminV.Environments:Create()
     msg = type(msg) == 'string' and msg or (tostring(msg) or 'unknown')
 
@@ -572,7 +623,7 @@ function AdminV.General:PrintError(msg, env)
         error_message = ('%s^7[^6AdminV^7][^1ERROR^7]%s%s ^7%s\n^7%s^7'):format(timestamp, category, name, msg, fst)
     end
 
-    print(error_message)
+    __print(error_message)
 end
 
 function AdminV.General:Print(env, ...)
@@ -587,7 +638,7 @@ function AdminV.General:Print(env, ...)
         str = ('%s %s'):format(str, tostring(args[i]))
     end
 
-    print(('%s^7[^6AdminV^7]%s'):format(timestamp, str))
+    __print(('%s^7[^6AdminV^7]%s'):format(timestamp, str))
 end
 
 function AdminV.General:PrintSuccess(env, ...)
@@ -602,7 +653,7 @@ function AdminV.General:PrintSuccess(env, ...)
         str = ('%s %s'):format(str, tostring(args[i]))
     end
 
-    print(('%s^7[^6AdminV^7]%s'):format(timestamp, str))
+    __print(('%s^7[^6AdminV^7]%s'):format(timestamp, str))
 end
 
 function AdminV.General:PrintWarning(env, ...)
@@ -617,7 +668,7 @@ function AdminV.General:PrintWarning(env, ...)
         str = ('%s %s'):format(str, tostring(args[i]))
     end
 
-    print(('%s^7[^6AdminV^7]%s'):format(timestamp, str))
+    __print(('%s^7[^6AdminV^7]%s'):format(timestamp, str))
 end
 
 function LoadAdminV()
@@ -636,3 +687,23 @@ function LoadModule(...)
 
     return table.unpack(results)
 end
+
+print = function(...)
+    AdminV.General:Print(_ENV, ...)
+end
+
+print_error = function(...)
+    AdminV.General:PrintError(_ENV, ...)
+end
+
+print_success = function(...)
+    AdminV.General:PrintSuccess(_ENV, ...)
+end
+
+print_warning = function(...)
+    AdminV.General:PrintWarning(_ENV, ...)
+end
+
+Citizen.CreateThread(function()
+    AdminV.Environments:LoadNatives()
+end)

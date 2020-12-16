@@ -19,7 +19,7 @@ AdminV.Permissions = {
 Citizen.CreateThread(function()
     while true do
         if (NetworkIsPlayerActive(PlayerId())) then
-            TriggerServerEvent('menuv:loadAdminV')
+            TriggerServerEvent('adminv:loadAdminV')
             break
         end
 
@@ -27,11 +27,32 @@ Citizen.CreateThread(function()
     end
 end)
 
-RegisterNetEvent('menuv:loadAdminV')
-AddEventHandler('menuv:loadAdminV', function(permissions)
+RegisterNetEvent('adminv:loadAdminV')
+AddEventHandler('adminv:loadAdminV', function(permissions)
     AdminV.Permissions = permissions
 
     if (permissions.Access) then
+        AdminV.Modules:LoadData()
+
+        local config, utils, translations = LoadModule('config', 'utils', 'translations')
+        local core = config('core')
+        local settings = config('settings')
+        local trans = translations('core')
+
+        AdminV.Menu = MenuV:CreateMenu(
+            utils:ensure(core.menu_title, 'AdminV'),
+            trans:T('admin_subtitle'),
+            utils:ensure(settings.position, 'topleft'),
+            utils:ensure((settings.color or {}).r, 255),
+            utils:ensure((settings.color or {}).g, 0),
+            utils:ensure((settings.color or {}).b, 0),
+            utils:ensure(settings.size, 'size-125'),
+            utils:ensure(core.menu_texture, 'default'),
+            utils:ensure(core.menu_dictionary, 'menuv'),
+            'adminv',
+            utils:ensure(settings.theme, 'native')
+        )
+
         LoadAdminV()
     end
 end)
