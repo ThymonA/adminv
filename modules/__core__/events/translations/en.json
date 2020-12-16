@@ -1,0 +1,5 @@
+{
+    "connecting_error": "[ERROR] You cannot join because of an error",
+    "connecting_title": "Connecting with %s",
+    "connecting_description": "You are currently connecting with %s please wait..."
+}

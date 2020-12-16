@@ -1,0 +1,9 @@
+[
+    "core",
+    "utils",
+    "linq",
+    "config",
+    "translations",
+    "events",
+    "permissions"
+]

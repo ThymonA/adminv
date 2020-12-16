@@ -1,0 +1,18 @@
+{
+    "version": "1.0.0",
+    "description": "AdminV event module",
+    "authors": [
+        {
+            "name": "ThymonA",
+            "github": "https://github.com/ThymonA",
+            "discord": "Tigo#9999",
+            "email": "contact@arens.io"
+        }
+    ],
+    "files": [],
+    "client_scripts": [],
+    "server_scripts": [],
+    "shared_scripts": [
+        "shared/events.lua"
+    ]
+}

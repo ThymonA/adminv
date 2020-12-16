@@ -1,0 +1,20 @@
+{
+    "version": "1.0.0",
+    "description": "AdminV permissions module",
+    "authors": [
+        {
+            "name": "ThymonA",
+            "github": "https://github.com/ThymonA",
+            "discord": "Tigo#9999",
+            "email": "contact@arens.io"
+        }
+    ],
+    "files": [],
+    "client_scripts": [
+        "client/main.lua"
+    ],
+    "server_scripts": [
+        "server/main.lua"
+    ],
+    "shared_scripts": []
+}

@@ -1,0 +1,4 @@
+{
+    "on_connecting_error": "laden van events is mislukt, neem contact op met de eigenaars van de server",
+    "player_connecting": "Speler '%s' is nu aan het verbinden met de server"
+}

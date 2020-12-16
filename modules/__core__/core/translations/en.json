@@ -1,0 +1,4 @@
+{
+    "on_connecting_error": "loading events failed, please contact the server owners",
+    "player_connecting": "Player '%s' is now connecting to the server"
+}
