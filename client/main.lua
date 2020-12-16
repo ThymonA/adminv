@@ -13,7 +13,11 @@
 ]]
 
 AdminV.Permissions = {
-    Access = false
+    Access = false,
+    ServerManagement = {
+        StartResource = false,
+        StopResource = false
+    }
 }
 
 Citizen.CreateThread(function()

@@ -25,7 +25,11 @@ local function load_permissions(source)
     end
 
     local source_perms = {
-        Access = IsPlayerAceAllowed(source, 'AdminV.Access')
+        Access = IsPlayerAceAllowed(source, 'AdminV.Access'),
+        ServerManagement = {
+            StartResource = IsPlayerAceAllowed(source, 'AdminV.ServerManagement.StartResource'),
+            StopResource = IsPlayerAceAllowed(source, 'AdminV.ServerManagement.StopResource')
+        }
     }
 
     stored_permissions[tostring(source)] = source_perms

@@ -1,0 +1,22 @@
+{
+    "version": "1.0.0",
+    "description": "AdminV settings module",
+    "authors": [
+        {
+            "name": "ThymonA",
+            "github": "https://github.com/ThymonA",
+            "discord": "Tigo#9999",
+            "email": "contact@arens.io"
+        }
+    ],
+    "files": [],
+    "client_scripts": [
+        "client/options/start_resource.lua",
+        "client/options/stop_resource.lua",
+        "client/main.lua"
+    ],
+    "server_scripts": [
+        "server/main.lua"
+    ],
+    "shared_scripts": []
+}

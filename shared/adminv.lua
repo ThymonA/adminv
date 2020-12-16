@@ -15,7 +15,7 @@
 local __print = print
 
 AdminV = {
-    __class = 'adminv',
+    __class = 'AdminV',
     Modules = {
         __class = 'modules',
         Loaded = false,
@@ -26,7 +26,9 @@ AdminV = {
     Environments = {
         __class = 'environments',
         Modules = {},
-        Natives = nil
+        Natives = nil,
+        NetEvents = {},
+        EventHandlers = {}
     },
     General = {
         __class = 'general',
@@ -43,6 +45,12 @@ AdminV = {
     },
     Menu = nil
 }
+
+local __RegisterServerEvent = AdminV.General.IsServer and RegisterServerEvent or RegisterNetEvent
+local __RegisterNetEvent = AdminV.General.IsServer and RegisterServerEvent or RegisterNetEvent
+local __AddEventHandler = AddEventHandler
+
+NAME = 'base'
 
 function AdminV.Modules:LoadData()
     if (self.Loaded) then return end
@@ -405,6 +413,42 @@ function AdminV.Environments:Create(env)
         return AdminV.Modules:GetModules()
     end
 
+    newEnvironment.RegisterServerEvent = __RegisterServerEvent
+    newEnvironment.RegisterNetEvent = __RegisterNetEvent
+
+    newEnvironment.AddEventHandler = function(name, func)
+        name = type(name) == 'string' and name or tostring(name) or 'unknown'
+        func = type(func) == 'function' and func or type(func) == 'table' and func or function() end
+
+        local isNetEvent = false
+
+        for k, v in pairs(self.NetEvents) do
+            if (v == name) then
+                isNetEvent = true
+            end
+        end
+
+        table.insert(self.EventHandlers, {
+            name = name,
+            func = func,
+            isNetEvent = isNetEvent,
+            isNetEventRegistered = false,
+            isNetRegistered = false
+        })
+
+        AdminV.General:AddEventHandler(name)
+    end
+
+    newEnvironment.AddGlobalEventHandler = function(name, func)
+        if (AdminV.General.IsServer) then
+            __RegisterServerEvent(name)
+        else
+            __RegisterNetEvent(name)
+        end
+
+        newEnvironment.AddEventHandler(name, func)
+    end
+
     newEnvironment.GetInvokingModules = function()
         local modules = AdminV.Modules:GetModules()
         local resource_name = AdminV.General.ResourceName or GetCurrentResourceName() or 'unknown'
@@ -676,6 +720,60 @@ function AdminV.General:PrintWarning(env, ...)
     end
 
     __print(('%s^7[^6AdminV^7]%s'):format(timestamp, str))
+end
+
+function AdminV.General:IsFunction(input)
+    if (input == nil) then return false end
+
+    local t = type(input)
+
+    if (t ~= 'table') then return t == 'function' end
+
+    if (rawget(input, '__cfx_functionReference') ~= nil or
+        rawget(input, '__cfx_async_retval') ~= nil) then
+        return true
+    end
+
+    if (rawget(input, '__cfx_functionSource') ~= nil) then
+        return false
+    end
+
+    local __class = rawget(input, '__class')
+
+    if (__class ~= nil) then
+        return false
+    end
+
+    local __type = rawget(input, '__type')
+
+    if (__type ~= nil) then
+        return false
+    end
+
+    return false
+end
+
+function AdminV.General:AddEventHandler(name)
+    name = type(name) == 'string' and name or tostring(name) or 'unknown'
+
+    for k, v in pairs(AdminV.Environments.EventHandlers) do
+        if (v.name == name and not v.isNetRegistered) then
+            __AddEventHandler(v.name, function(...)
+                local player_src = source
+                local func = AdminV.Environments.EventHandlers[k].func
+
+                if (self:IsFunction(func)) then
+                    if (self.IsServer) then
+                        func(player_src, ...)
+                    else
+                        func(...)
+                    end
+                end
+            end)
+
+            AdminV.Environments.EventHandlers[k].isNetRegistered = true
+        end
+    end
 end
 
 function LoadAdminV()

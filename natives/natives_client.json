@@ -6383,5 +6383,6 @@
   "WaypointRecordingGetNumPoints",
   "WaypointRecordingGetSpeedAtPoint",
   "WithdrawVc",
-  "WouldEntityBeOccluded"
+  "WouldEntityBeOccluded",
+  "RegisterNetEvent"
 ]
