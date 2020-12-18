@@ -36,28 +36,3 @@ AddGlobalEventHandler('adminv:server_mangement:startResource', function(source, 
         ExecuteCommand(('start %s'):format(name))
     end
 end)
-
-local refreshDone = false
-
-AddEventHandler('onResourceListRefresh', function()
-    refreshDone = true
-end)
-
-AddGlobalEventHandler('adminv:server_mangement:restartResource', function(source, name)
-    name = utils:ensure(name, 'unknown')
-    source = utils:ensure(source, -1)
-
-    local perms = permissions(source)
-
-    if ((perms.ServerManagement or {}).RestartResource) then
-        ExecuteCommand(('stop %s'):format(name))
-
-        refreshDone = false
-
-        ExecuteCommand('refresh')
-
-        repeat Citizen.Wait(0) until refreshDone == true
-
-        ExecuteCommand(('start %s'):format(name))
-    end
-end)

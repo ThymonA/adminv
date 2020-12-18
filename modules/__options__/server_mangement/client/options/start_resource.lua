@@ -32,6 +32,7 @@ local refresh = function()
 
     for k, v in pairs(stopped_resources) do
         start_resource_menu:AddButton({
+            icon = '🟩',
             label = v,
             value = v,
             description = trans:T('resource_start_description', v),
@@ -101,7 +102,7 @@ AddStartResourceOption = function(server_management_menu, _trans)
     })
 
     server_management_menu:AddButton({
-        icon = '✅',
+        icon = '🟩',
         label = trans:T('start_resource'),
         description = trans:T('start_resource_description'),
         value = start_resource_menu

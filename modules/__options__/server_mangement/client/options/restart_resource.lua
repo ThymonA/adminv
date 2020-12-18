@@ -14,35 +14,35 @@
 
 local enabled = false
 local trans = nil
-local stop_resource_menu = nil
+local restart_resource_menu = nil
 local running_resources = {}
 
-local stop_resource = function(item)
+local restart_resource = function(item)
     local resource = utils:ensure(item.Value, 'unknown')
 
-    if (((AdminV.Permissions or {}).ServerManagement or {}).StopResource) then
-        TriggerServerEvent('adminv:server_mangement:stopResource', resource)
+    if (((AdminV.Permissions or {}).ServerManagement or {}).RestartResource) then
+        TriggerServerEvent('adminv:server_mangement:restartResource', resource)
     end
 end
 
 local refresh = function()
-    stop_resource_menu:ClearItems()
+    restart_resource_menu:ClearItems()
 
     table.sort(running_resources)
 
     for k, v in pairs(running_resources) do
-        stop_resource_menu:AddButton({
-            icon = '🟥',
+        restart_resource_menu:AddButton({
+            icon = '🟧',
             label = v,
             value = v,
-            description = trans:T('resource_stop_description', v),
-            select = stop_resource
+            description = trans:T('resource_restart_description', v),
+            select = restart_resource
         })
     end
 
     if (#running_resources <= 0) then
-        stop_resource_menu:AddButton({
-            label = trans:T('no_stop_description'),
+        restart_resource_menu:AddButton({
+            label = trans:T('no_restart_description'),
             select = function(item)
                 local parent = item:GetParentMenu()
 
@@ -92,20 +92,20 @@ AddGlobalEventHandler('onResourceStart', function(name)
     refresh()
 end)
 
-AddStopResourceOption = function(server_management_menu, _trans)
+AddRestartResourceOption = function(server_management_menu, _trans)
     enabled = true
     trans = _trans
 
-    stop_resource_menu = server_management_menu:InheritMenu({
-        title = trans:T('stop_resource'),
-        subtitle = ('%s > %s'):format(trans:T('server_management'), trans:T('stop_resource'))
+    restart_resource_menu = server_management_menu:InheritMenu({
+        title = trans:T('restart_resource'),
+        subtitle = ('%s > %s'):format(trans:T('server_management'), trans:T('restart_resource'))
     })
 
     server_management_menu:AddButton({
-        icon = '🟥',
-        label = trans:T('stop_resource'),
-        description = trans:T('stop_resource_description'),
-        value = stop_resource_menu
+        icon = '🟧',
+        label = trans:T('restart_resource'),
+        description = trans:T('restart_resource_description'),
+        value = restart_resource_menu
     })
 
     local numberOfResource = GetNumResources()

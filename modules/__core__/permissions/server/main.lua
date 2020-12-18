@@ -28,7 +28,8 @@ local function load_permissions(source)
         Access = IsPlayerAceAllowed(source, 'AdminV.Access'),
         ServerManagement = {
             StartResource = IsPlayerAceAllowed(source, 'AdminV.ServerManagement.StartResource'),
-            StopResource = IsPlayerAceAllowed(source, 'AdminV.ServerManagement.StopResource')
+            StopResource = IsPlayerAceAllowed(source, 'AdminV.ServerManagement.StopResource'),
+            RestartResource = IsPlayerAceAllowed(source, 'AdminV.ServerManagement.RestartResource')
         }
     }
 

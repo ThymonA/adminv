@@ -20,21 +20,9 @@ if (not utils:any(true, (AdminV.Permissions or {}).ServerManagement or {}, 'valu
     return
 end
 
-local server_management_menu = AddMenuOption({
+local player_management_menu = AddMenuOption({
     icon = '🧰',
-    title = trans:T('server_management'),
-    subtitle = trans:T('server_management'),
-    description = trans:T('server_management_description')
+    title = trans:T('player_management'),
+    subtitle = trans:T('player_management'),
+    description = trans:T('player_management_description')
 })
-
-if (((AdminV.Permissions or {}).ServerManagement or {}).StartResource) then
-    AddStartResourceOption(server_management_menu, trans)
-end
-
-if (((AdminV.Permissions or {}).ServerManagement or {}).StopResource) then
-    AddStopResourceOption(server_management_menu, trans)
-end
-
-if (((AdminV.Permissions or {}).ServerManagement or {}).RestartResource) then
-    AddRestartResourceOption(server_management_menu, trans)
-end

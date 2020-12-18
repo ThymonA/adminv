@@ -3,10 +3,14 @@
     "server_management_description": "Settings for managing your server",
     "start_resource": "Start Resource",
     "start_resource_description": "Start a stopped resource",
-    "resource_start_description": "Start '%s' resource",
+    "resource_start_description": "Start '^3%s^7' resource",
     "no_start_description": "No resource found to start",
     "stop_resource": "Stop Resource",
     "stop_resource_description": "Stop a started resource",
-    "resource_stop_description": "Stop '%s' resource",
-    "no_stop_description": "No resource found to stop"
+    "resource_stop_description": "Stop '^3%s^7' resource",
+    "no_stop_description": "No resource found to stop",
+    "restart_resource": "Restart Resource",
+    "restart_resource_description": "Restart a running resource",
+    "resource_restart_description": "Restart '^3%s^7' resource",
+    "no_restart_description": "No resource found to restart"
 }

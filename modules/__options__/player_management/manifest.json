@@ -1,6 +1,6 @@
 {
     "version": "1.0.0",
-    "description": "AdminV's Server Management",
+    "description": "AdminV's Player Management",
     "authors": [
         {
             "name": "ThymonA",
@@ -11,9 +11,6 @@
     ],
     "files": [],
     "client_scripts": [
-        "client/options/start_resource.lua",
-        "client/options/stop_resource.lua",
-        "client/options/restart_resource.lua",
         "client/main.lua"
     ],
     "server_scripts": [

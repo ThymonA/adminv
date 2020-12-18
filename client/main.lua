@@ -16,7 +16,22 @@ AdminV.Permissions = {
     Access = false,
     ServerManagement = {
         StartResource = false,
-        StopResource = false
+        StopResource = false,
+        RestartResource = false
+    },
+    PlayerManagement = {
+        AllPlayers = {},
+        TargetPlayer = {
+            Kick = false,
+            Ban = false,
+            Spectate = false,
+            TeleportTo = false,
+            TeleportToMe = false,
+            PermBan = false,
+            Warn = false,
+            Freeze = false,
+            Screenshot = false
+        }
     }
 }
 
